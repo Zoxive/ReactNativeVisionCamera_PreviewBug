@@ -1,12 +1,23 @@
 import { StatusBar } from "expo-status-bar";
-import { ActivityIndicator, Button, StyleSheet, Text, View } from "react-native";
+import { ActivityIndicator, Button, Pressable, StyleSheet, Text, View } from "react-native";
 import { useCameraPermissions } from "./features/permissions/hooks";
 import { CameraNotification } from "./features/camera/CameraNotification";
 import { forwardRef, useImperativeHandle, useRef } from "react";
-import { Camera, type FormatFilter, useCameraDevice, useCameraFormat, type TakePhotoOptions, type PhotoFile } from "react-native-vision-camera";
+import {
+	Camera,
+	type FormatFilter,
+	useCameraDevice,
+	useCameraFormat,
+	type TakePhotoOptions,
+	type PhotoFile,
+} from "react-native-vision-camera";
+import { PressableOpacity } from "./features/buttons/PressableOpacity";
+import { ModalRoot } from "./features/modals/ModalRoot";
+import { useModal } from "./features/modals/hooks";
+import { useModalStore } from "./features/modals/store";
 
 export default function App() {
-  const viewportRef = useRef<ViewportControls>(null);
+	const viewportRef = useRef<ViewportControls>(null);
 
 	return (
 		<>
@@ -15,6 +26,7 @@ export default function App() {
 				<ViewPort ref={viewportRef} />
 				<CameraControls cameraViewPortControls={viewportRef} />
 			</View>
+      <ModalRoot />
 		</>
 	);
 }
@@ -23,7 +35,7 @@ const targetFps = 30;
 const cameraFormat: FormatFilter[] = [{ fps: targetFps }, { photoAspectRatio: 16 / 9 }, { videoAspectRatio: 16 / 9 }];
 
 interface ViewportControls {
-  takePhoto: (options?: TakePhotoOptions) => Promise<PhotoFile>;
+	takePhoto: (options?: TakePhotoOptions) => Promise<PhotoFile>;
 }
 
 const ViewPort = forwardRef<ViewportControls>((_, ref) => {
@@ -35,13 +47,13 @@ const ViewPort = forwardRef<ViewportControls>((_, ref) => {
 
 	let child: JSX.Element;
 
-  useImperativeHandle(
+	useImperativeHandle(
 		ref,
 		() => ({
 			takePhoto: async (options?: TakePhotoOptions): Promise<PhotoFile> => {
 				const cam = cameraRef.current;
 				if (cam == null) {
-					return Promise.reject('Camera not initialized');
+					return Promise.reject("Camera not initialized");
 				}
 
 				return cam.takePhoto(options);
@@ -71,7 +83,7 @@ const ViewPort = forwardRef<ViewportControls>((_, ref) => {
 					ref={cameraRef}
 					device={device}
 					format={format}
-          photo={true}
+					photo={true}
 					fps={fps}
 					isActive={true}
 					style={styles.camera}
@@ -85,30 +97,33 @@ const ViewPort = forwardRef<ViewportControls>((_, ref) => {
 });
 
 interface CameraControlsProps {
-  cameraViewPortControls: React.RefObject<ViewportControls>;
+	cameraViewPortControls: React.RefObject<ViewportControls>;
 }
 
 function CameraControls({ cameraViewPortControls }: CameraControlsProps) {
-  const takePicture = async () => {
-    const viewport = cameraViewPortControls.current;
-    if (viewport == null) {
-      return;
-    }
+	const takePicture = async () => {
+		const viewport = cameraViewPortControls.current;
+		if (viewport == null) {
+			return;
+		}
 
-    try {
-      const photo = await viewport.takePhoto();
+		try {
+			const photo = await viewport.takePhoto();
 
-      console.log('Photo taken:', photo);
-    } catch (err) {
-      console.error(err);
-    }
-  }
+			console.log("Photo taken:", photo);
 
-	return (<View style={styles.cameraControls}>
-      <View style={styles.cameraButton}>
-        <Button onPress={takePicture} title="Take Picture" />
-      </View>
-    </View>);
+      useModalStore.getState().setActiveModal("ViewPicture", { file: photo });
+
+		} catch (err) {
+			console.error(err);
+		}
+	};
+
+	return (
+		<View style={styles.cameraControls}>
+      <PressableOpacity style={styles.cameraButton} onPress={takePicture} />
+		</View>
+	);
 }
 
 const styles = StyleSheet.create({
@@ -128,10 +143,14 @@ const styles = StyleSheet.create({
 	cameraControls: {
 		flex: 1,
 		backgroundColor: "#16313f",
+    alignContent: "center",
+    alignItems: "center",
+    justifyContent: "center",
 	},
-  cameraButton: {
-    flex: 1,
-    width: '25%',
-    transform: [{ rotate: '90deg' }]
-  }
+	cameraButton: {
+		flex: 0.5,
+    aspectRatio: 1,
+    backgroundColor: "white",
+    borderRadius: 50,
+	},
 });
