@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { StyleSheet, View, Text } from 'react-native';
+import { useState } from "react";
+import { StyleSheet, View, Text } from "react-native";
 
 export type CameraNotificationProps = {
 	error?: boolean;
@@ -16,14 +16,13 @@ export function CameraNotification({ message, error, children }: CameraNotificat
 		<View style={styles.notification} onLayout={(e) => setLayoutInfo(e.nativeEvent.layout)}>
 			<View style={[styles.rotatedContainer, { width: layoutInfo.height }]}>
 				<View style={styles.innerContainer}>
-					<View style={styles.iconStack}>
-					</View>
+					<View style={styles.iconStack}></View>
 					<View style={styles.textContainer}>
-						{typeof message === 'string' ? <Text style={styles.text}>{message}</Text> : null}
+						{typeof message === "string" ? <Text style={styles.text}>{message}</Text> : null}
 						{Array.isArray(message) && (
 							<>
 								<Text style={styles.text}>{message[0]}</Text>
-								<Text style={[styles.text, { color: '#B6EADA' }]}>{message[1]}</Text>
+								<Text style={[styles.text, { color: "#B6EADA" }]}>{message[1]}</Text>
 							</>
 						)}
 					</View>
@@ -36,19 +35,19 @@ export function CameraNotification({ message, error, children }: CameraNotificat
 
 const styles = StyleSheet.create({
 	notification: {
-		position: 'absolute',
+		position: "absolute",
 		top: 0,
 		left: 0,
 		right: 0,
 		bottom: 0,
-		justifyContent: 'center',
-		backgroundColor: '#99999955',
+		justifyContent: "center",
+		backgroundColor: "#99999955",
 	},
 	rotatedContainer: {
-		transform: [{ rotate: '90deg' }],
-		alignContent: 'flex-start',
-		justifyContent: 'flex-start',
-		position: 'relative',
+		transform: [{ rotate: "90deg" }],
+		alignContent: "flex-start",
+		justifyContent: "flex-start",
+		position: "relative",
 		top: 0,
 		left: -30,
 		right: 0,
@@ -56,23 +55,23 @@ const styles = StyleSheet.create({
 	},
 	innerContainer: {
 		padding: 8,
-		flexDirection: 'row',
-		justifyContent: 'center',
-		alignSelf: 'center',
+		flexDirection: "row",
+		justifyContent: "center",
+		alignSelf: "center",
 		borderRadius: 20,
-		backgroundColor: '#575858DD',
+		backgroundColor: "#575858DD",
 	},
 	textContainer: {
 		marginRight: 10,
-		flexDirection: 'row',
+		flexDirection: "row",
 	},
 	text: {
-		color: 'white',
+		color: "white",
 	},
 	iconStack: {
-		position: 'relative',
-		justifyContent: 'center',
-		alignItems: 'center',
+		position: "relative",
+		justifyContent: "center",
+		alignItems: "center",
 		marginRight: 10,
 	},
 });

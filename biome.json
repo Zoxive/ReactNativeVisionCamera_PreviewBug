@@ -12,5 +12,9 @@
 		"rules": {
 			"recommended": true
 		}
+	},
+	"files": {
+		"include": ["**/*.ts", "**/*.tsx", "**/*.js", "**/*.jsx"],
+		"ignore": ["*.json", "android/**", "ios/**", "node_modules/**", ".expo/**"]
 	}
 }

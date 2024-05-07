@@ -1,5 +1,12 @@
 import { forwardRef, useCallback } from "react";
-import { Pressable, type PressableProps, type PressableStateCallbackType, type StyleProp, type View, type ViewStyle } from "react-native";
+import {
+	Pressable,
+	type PressableProps,
+	type PressableStateCallbackType,
+	type StyleProp,
+	type View,
+	type ViewStyle,
+} from "react-native";
 
 export interface PressableOpacityProps extends PressableProps {
 	/**

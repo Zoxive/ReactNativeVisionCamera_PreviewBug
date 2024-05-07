@@ -26,7 +26,7 @@ export default function App() {
 				<ViewPort ref={viewportRef} />
 				<CameraControls cameraViewPortControls={viewportRef} />
 			</View>
-      <ModalRoot />
+			<ModalRoot />
 		</>
 	);
 }
@@ -112,8 +112,7 @@ function CameraControls({ cameraViewPortControls }: CameraControlsProps) {
 
 			console.log("Photo taken:", photo);
 
-      useModalStore.getState().setActiveModal("ViewPicture", { file: photo });
-
+			useModalStore.getState().setActiveModal("ViewPicture", { file: photo });
 		} catch (err) {
 			console.error(err);
 		}
@@ -121,7 +120,7 @@ function CameraControls({ cameraViewPortControls }: CameraControlsProps) {
 
 	return (
 		<View style={styles.cameraControls}>
-      <PressableOpacity style={styles.cameraButton} onPress={takePicture} />
+			<PressableOpacity style={styles.cameraButton} onPress={takePicture} />
 		</View>
 	);
 }
@@ -143,14 +142,14 @@ const styles = StyleSheet.create({
 	cameraControls: {
 		flex: 1,
 		backgroundColor: "#16313f",
-    alignContent: "center",
-    alignItems: "center",
-    justifyContent: "center",
+		alignContent: "center",
+		alignItems: "center",
+		justifyContent: "center",
 	},
 	cameraButton: {
 		flex: 0.5,
-    aspectRatio: 1,
-    backgroundColor: "white",
-    borderRadius: 50,
+		aspectRatio: 1,
+		backgroundColor: "white",
+		borderRadius: 50,
 	},
 });

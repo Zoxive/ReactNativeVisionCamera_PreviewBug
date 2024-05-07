@@ -1,10 +1,10 @@
 import { createElement } from "react";
 import { ViewPicture } from "../../app/ViewPicture";
 import type { Modal, ModalNames } from "./types";
-import { Text } from 'react-native';
+import { Text } from "react-native";
 
 export const registry = {
-    ViewPicture: ViewPicture,
+	ViewPicture: ViewPicture,
 	// biome-ignore lint/correctness/noChildrenProp: <explanation>
 	TextExample: () => createElement(Text, { children: "Empty Text" }),
 } as const;
@@ -15,8 +15,8 @@ export function RegistryRender<T extends ModalNames>(value: Modal<T>, close: () 
 	const props = value.activeModalProps;
 
 	if (props == null || props === undefined) {
-        return createElement(Component, { close });
+		return createElement(Component, { close });
 	}
 
-    return createElement(Component, { ...(props as object), close });
+	return createElement(Component, { ...(props as object), close });
 }

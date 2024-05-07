@@ -1,8 +1,8 @@
-import { useCallback } from 'react';
-import { Pressable, StyleSheet } from 'react-native';
-import { RegistryRender } from './registry';
-import { useModalStore } from './store';
-import { useBackButtonListener } from '../../shared/hooks';
+import { useCallback } from "react";
+import { Pressable, StyleSheet } from "react-native";
+import { RegistryRender } from "./registry";
+import { useModalStore } from "./store";
+import { useBackButtonListener } from "../../shared/hooks";
 
 export function ModalRoot() {
 	const activeModal = useModalStore((state) => state.activeModal[state.activeModal.length - 1]);
@@ -27,11 +27,8 @@ export function ModalRoot() {
 
 	return (
 		<>
-			<Pressable
-				onPress={closeModal}
-				style={StyleSheet.absoluteFill}
-			/>
-            {child}
+			<Pressable onPress={closeModal} style={StyleSheet.absoluteFill} />
+			{child}
 		</>
 	);
 }
